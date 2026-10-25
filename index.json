@@ -1,0 +1,33 @@
+{
+  "name": "EAHentai (Orpoz)",
+  "badgeLabel": "EAH",
+  "signingKey": "ba737e3a25ec5cc33f649cac71737d6d984967bc059bacaadc01dba0afaf1fa1",
+  "contact": {
+    "website": "https://github.com/Orpoz/eahentai-extension"
+  },
+  "extensionList": {
+    "extensions": [
+      {
+        "name": "EAHentai",
+        "packageName": "eu.kanade.tachiyomi.extension.en.eahentai",
+        "resources": {
+          "apkUrl": "https://raw.githubusercontent.com/Orpoz/eahentai-extension/repo/apk/tachiyomi-en.eahentai-v1.6.1.apk",
+          "iconUrl": "https://raw.githubusercontent.com/Orpoz/eahentai-extension/repo/icon/eu.kanade.tachiyomi.extension.en.eahentai.png",
+          "jarUrl": "https://raw.githubusercontent.com/Orpoz/eahentai-extension/repo/jar/tachiyomi-en.eahentai-v1.6.1.jar"
+        },
+        "extensionLib": "1.6",
+        "versionCode": "106001",
+        "versionName": "1.6.1",
+        "contentWarning": "CONTENT_WARNING_NSFW",
+        "sources": [
+          {
+            "id": "6252565297586539202",
+            "name": "EAHentai",
+            "language": "en",
+            "homeUrl": "https://eahentai.com"
+          }
+        ]
+      }
+    ]
+  }
+}

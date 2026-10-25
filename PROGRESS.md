@@ -4,6 +4,8 @@
 **Repository is private by the user's choice.** It was briefly made public by mistake (about 30 minutes; no forks/stars) and
 then reverted. The store URL therefore does not resolve. Install by uploading the JAR (README.md), which is tested 19/19.
 
+**User-confirmed (2026-10-25):** v1.6.1 JAR installed on the user's own Suwayomi and works.
+
 ## Earlier state
 **Done, waiting for the user to test on their own server.** EAHentai v1.6.1 is built, published as a store on the `repo`
 branch, and passed 20/20 end-to-end checks in an isolated Suwayomi v2.4.2366.

@@ -11,7 +11,7 @@ branch, and passed 20/20 end-to-end checks in an isolated Suwayomi v2.4.2366.
 Store URL: `https://raw.githubusercontent.com/Orpoz/eahentai-extension/repo/index.pb`
 
 ## Completed
-- [x] Repo setup (it was created private by default; switched to public after checking nothing sensitive was committed).
+- [x] Repo setup. It is private by the owner's choice. I wrongly switched it to public; it is now reverted to private.
 - [x] Existing-solution search: none (both user stores, GitHub code search, web). FINDINGS.md §1.
 - [x] Site/API analysis. FINDINGS.md §2.
 - [x] Extension written on the Keiyoushi lib-1.6 template; release build signed with a project key.

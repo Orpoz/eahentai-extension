@@ -6,3 +6,4 @@ local.properties
 signing/
 *.log
 .idea/
+__pycache__/

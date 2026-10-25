@@ -97,12 +97,15 @@ def index(i: dict) -> bytes:
     return out
 
 
-def main() -> None:
-    src, dst = sys.argv[1], sys.argv[2]
+def main_args(src, dst) -> None:
     with open(src, encoding="utf-8") as f:
         data = json.load(f)
     with open(dst, "wb") as f:
         f.write(gzip.compress(index(data), mtime=0))
+
+
+def main() -> None:
+    main_args(sys.argv[1], sys.argv[2])
 
 
 if __name__ == "__main__":

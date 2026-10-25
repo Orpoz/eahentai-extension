@@ -1,21 +1,33 @@
 # Progress
 
-## Current state
-- Research complete: **no existing extension** supports eahentai.com (both user stores + GitHub/web searched). See FINDINGS.md.
-- Site has a public JSON API; custom extension will be built on it.
+## Current state (2026-10-25)
+**Done, waiting for the user to test on their own server.** EAHentai v1.6.1 is built, published as a store on the `repo`
+branch, and passed 20/20 end-to-end checks in an isolated Suwayomi v2.4.2366.
+
+Store URL: `https://raw.githubusercontent.com/Orpoz/eahentai-extension/repo/index.pb`
 
 ## Completed
-- Repo setup.
-- Store search (keiyoushi, yuzono) — negative.
-- Site/API analysis — endpoints verified live.
+- [x] Repo setup (it was created private by default; switched to public after checking nothing sensitive was committed).
+- [x] Existing-solution search: none (both user stores, GitHub code search, web). FINDINGS.md §1.
+- [x] Site/API analysis. FINDINGS.md §2.
+- [x] Extension written on the Keiyoushi lib-1.6 template; release build signed with a project key.
+- [x] `index.pb` encoder, verified byte-identical against Keiyoushi's index.
+- [x] Store published; hosted files byte-identical to the build.
+- [x] Isolated Suwayomi test: 20/20 pass (store → install JAR → browse/search/details/pages/images).
+- [x] APK fallback investigated: lib-1.6 APKs (Keiyoushi's too) fail under Suwayomi's dex2jar; the JAR is the supported path.
+- [x] Network-destination audit of the shipped JAR.
 
 ## Test results
-- API endpoints latest/popular/search/entities/album: HTTP 200, JSON, verified 2026-10-25.
-- Image CDN: 200 with/without Referer.
+See FINDINGS.md §4. Re-run with `python tools/test/e2e.py` against a disposable instance on :4599.
 
 ## Blockers
-- none
+- None. The user's own server was not touched (read-only check of version and extension filenames only).
 
 ## Next steps
-- Set up Android SDK + Keiyoushi extensions-source build.
-- Write extension, build APK, generate index.pb store.
+- User: add the store URL in Suwayomi and install EAHentai (README.md).
+- If the site's API changes: update `extension/eahentai`, bump `versionCode`, follow BUILDING.md.
+
+## Local environment (for resuming on this machine)
+- `C:\eabuild\extensions-source`: Keiyoushi checkout containing `src/en/eahentai`.
+- `C:\eabuild\android-sdk`: SDK. `C:\eabuild\signing`: keystore and passwords (**back up; never commit**).
+- `C:\eabuild\store`: `repo` branch clone. `C:\eabuild\suwa-test`: disposable Suwayomi (jar, `root/` data dir, `run.sh`).

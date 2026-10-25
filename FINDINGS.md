@@ -2,6 +2,11 @@
 
 _Last updated 2026-10-25._
 
+> **Update:** the repository is private (the owner's choice), so the store URL below returns 404. Install by uploading
+> `tachiyomi-en.eahentai-v1.6.1.jar` in Suwayomi's Extensions page. That path was tested in the isolated v2.4.2366 instance
+> with the same checks: 19/19 pass. The store setup still works if the repo is ever made public, or if the `repo`
+> branch's files are hosted anywhere Suwayomi can reach without login.
+
 ## TL;DR / recommendation
 No existing Mihon/Tachiyomi extension supports eahentai.com. I built one, **EAHentai v1.6.1**, and published it as an
 extension store:

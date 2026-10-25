@@ -14,20 +14,32 @@ def run(query, variables=None):
     if r.get("errors"): raise RuntimeError(json.dumps(r["errors"])[:800])
     return r["data"]
 
-stores = run("{extensionStores{nodes{indexUrl}}}")["extensionStores"]["nodes"]
-if not any(s["indexUrl"] == STORE for s in stores):
-    run("mutation($u:String!){addExtensionStore(input:{indexUrl:$u}){clientMutationId}}", {"u": STORE})
-st = run("query($u:String!){extensionStore(indexUrl:$u){name badgeLabel signingKey}}", {"u": STORE})["extensionStore"]
-check("store added and parsed", st["name"] == "EAHentai (Orpoz)", json.dumps(st))
-
-run("mutation{fetchExtensions(input:{}){clientMutationId}}")
-ext = run("query($p:String!){extension(pkgName:$p){name versionName versionCode isInstalled isNsfw lang apkName}}", {"p": PKG})["extension"]
-check("extension listed from store", ext["versionName"] == "1.6.1", json.dumps(ext))
-
-if not ext["isInstalled"]:
-    run("mutation($p:String!){updateExtension(input:{id:$p,patch:{install:true}}){extension{isInstalled}}}", {"p": PKG})
-ext = run("query($p:String!){extension(pkgName:$p){isInstalled source{nodes{id name lang isNsfw}}}}", {"p": PKG})["extension"]
-check("extension installed", ext["isInstalled"], json.dumps(ext["source"]))
+import os
+JAR = os.environ.get("EAH_JAR")
+if JAR:
+    # Private-repo mode: no store; upload the JAR like Suwayomi's "install external extension".
+    for s in run("{extensionStores{nodes{indexUrl}}}")["extensionStores"]["nodes"]:
+        run("mutation($u:String!){removeExtensionStore(input:{indexUrl:$u}){clientMutationId}}", {"u": s["indexUrl"]})
+    try:
+        run("mutation($p:String!){updateExtension(input:{id:$p,patch:{uninstall:true}}){clientMutationId}}", {"p": PKG})
+    except RuntimeError:
+        pass
+    import subprocess
+    out = subprocess.run(["curl", "-sS", "-w", "%{http_code}", "-F", "file=@" + JAR, "http://127.0.0.1:4599/api/v1/extension/install"], capture_output=True, text=True).stdout
+    check("JAR uploaded as external extension", out.endswith("200"), out[-200:])
+else:
+    stores = run("{extensionStores{nodes{indexUrl}}}")["extensionStores"]["nodes"]
+    if not any(s["indexUrl"] == STORE for s in stores):
+        run("mutation($u:String!){addExtensionStore(input:{indexUrl:$u}){clientMutationId}}", {"u": STORE})
+    st = run("query($u:String!){extensionStore(indexUrl:$u){name badgeLabel signingKey}}", {"u": STORE})["extensionStore"]
+    check("store added and parsed", st["name"] == "EAHentai (Orpoz)", json.dumps(st))
+    run("mutation{fetchExtensions(input:{}){clientMutationId}}")
+    ext = run("query($p:String!){extension(pkgName:$p){name versionName versionCode isInstalled isNsfw lang apkName}}", {"p": PKG})["extension"]
+    check("extension listed from store", ext["versionName"] == "1.6.1", json.dumps(ext))
+    if not ext["isInstalled"]:
+        run("mutation($p:String!){updateExtension(input:{id:$p,patch:{install:true}}){extension{isInstalled}}}", {"p": PKG})
+ext = run("query($p:String!){extension(pkgName:$p){isInstalled versionName source{nodes{id name lang isNsfw}}}}", {"p": PKG})["extension"]
+check("extension installed", ext["isInstalled"] and ext["versionName"] == "1.6.1", json.dumps(ext["source"]))
 src = ext["source"]["nodes"][0]["id"]
 
 def browse(kind, page=1, query=None, filters=None):

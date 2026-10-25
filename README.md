@@ -11,6 +11,15 @@ your own server yet.
 
 ## Install in Suwayomi
 
+This repository is **private**, so Suwayomi can't read a store from it. Install the JAR file directly instead (tested,
+19/19 checks):
+
+1. Get `tachiyomi-en.eahentai-v1.6.1.jar` (on this PC: `C:\eabuild\store\jar\`; also in the private `repo` branch).
+2. In Suwayomi's web UI, go to **Extensions** and use the install-from-file/external-extension button (or POST it to
+   `/api/v1/extension/install` as form field `file`). Choose the `.jar`, **not** the `.apk`.
+3. The source appears as **EAHentai** (English, NSFW). Updates are installed the same way, with a newer JAR.
+
+### Store install (only works if the repository is public)
 1. In Suwayomi's web UI, open the settings page where you added your other stores (the extension repository/store list,
    stored server-side as `server.extensionStores`) and add a new entry.
 2. Paste:

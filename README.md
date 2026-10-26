@@ -1,55 +1,67 @@
-# eahentai-extension
+# EAHentai Extension
 
-A Mihon/Tachiyomi-compatible extension for **eahentai.com**, published as an extension store for
-[Suwayomi-Server](https://github.com/Suwayomi/Suwayomi-Server). (18+ content; the extension is flagged NSFW.)
+A Mihon/Tachiyomi-compatible extension for [eahentai.com](https://eahentai.com), distributed as an extension repository for [Suwayomi Server](https://github.com/Suwayomi/Suwayomi-Server).
 
-No existing extension supports this site (see [FINDINGS.md](FINDINGS.md)), so this one was built against the current
-Keiyoushi extension template (lib 1.6) and the site's public JSON API.
+> [!WARNING]
+> This extension provides access to adult content and is marked as NSFW.
 
-## Install in Suwayomi
+The extension is based on the Keiyoushi extension template (lib 1.6) and uses the site's public JSON API. Compatibility research and implementation notes are available in [FINDINGS.md](FINDINGS.md).
 
+## Installation
 
-1. Get `tachiyomi-en.eahentai-v1.6.1.jar` (on this PC: `C:\eabuild\store\jar\`; also in the private `repo` branch).
-2. In Suwayomi's web UI, go to **Extensions** and use the install-from-file/external-extension button (or POST it to
-   `/api/v1/extension/install` as form field `file`). Choose the `.jar`, **not** the `.apk`.
-3. The source appears as **EAHentai** (English, NSFW). Updates are installed the same way, with a newer JAR.
+### Extension repository
 
-### Store install (only works if the repository is public)
-1. In Suwayomi's web UI, open the settings page where you added your other stores (the extension repository/store list,
-   stored server-side as `server.extensionStores`) and add a new entry.
-2. Paste:
+1. Open the extension repository settings in the Suwayomi web interface.
+2. Add the following repository URL:
 
-   ```
+   ```text
    https://raw.githubusercontent.com/Orpoz/eahentai-extension/repo/index.pb
    ```
 
-3. Go to **Extensions**, refresh, enable NSFW/18+ display if it's hidden, and install **EAHentai** (en, 1.6.1).
-4. The source shows up under **Sources → English → EAHentai**.
+3. Open **Extensions** and refresh the repository list.
+4. Enable the display of NSFW extensions if necessary.
+5. Install **EAHentai**.
+6. The source will appear under **Sources → English → EAHentai**.
 
-Fallback: the APK and JAR are also in the [`repo` branch](https://github.com/Orpoz/eahentai-extension/tree/repo).
-For Suwayomi, use the **JAR**. Lib-1.6 APKs, including Keiyoushi's own, fail in Suwayomi's APK→JAR conversion (see FINDINGS.md §5).
+### Manual installation
+
+1. Download the latest JAR from the [`repo` branch](https://github.com/Orpoz/eahentai-extension/tree/repo).
+2. In the Suwayomi web interface, open **Extensions** and select the option to install an external extension from a file.
+3. Select the `.jar` file—not the `.apk`.
+
+The JAR can also be uploaded to `/api/v1/extension/install` as the `file` form field.
+
+Updates may be installed using either the extension repository or a newer JAR. Suwayomi users should use the JAR because lib 1.6 APKs are incompatible with Suwayomi's APK-to-JAR conversion. Additional details are documented in [FINDINGS.md](FINDINGS.md).
 
 ## Features
-| Feature | How |
+
+| Feature | Description |
 |---|---|
-| Popular | `/api/image/popular` (today's views), paginated |
-| Latest | `/api/image/latest`, paginated |
-| Search | title/tag search with sort (newest, popular today/week/month/all-time) |
-| Artist / parody / character | "Search in" filter (needs the exact name, as shown on the site) |
-| Open by URL | paste `https://eahentai.com/a/12345` (or a reader URL) into search |
-| Details | title, artist, tags + type as genres, parody/characters/page count in description |
-| Reader | one "Gallery" chapter; pages loaded directly from `i.eahentai.com` |
+| Popular | Browses galleries by today's views using `/api/image/popular` |
+| Latest | Browses recently added galleries using `/api/image/latest` |
+| Search | Searches titles and tags, with sorting by newest or popularity |
+| Filtered search | Searches by artist, parody, or character using the exact site name |
+| Open by URL | Accepts gallery and reader URLs such as `https://eahentai.com/a/12345` |
+| Gallery details | Displays the title, artist, tags, type, parody, characters, and page count |
+| Reader | Exposes each gallery as a single chapter with pages loaded from `i.eahentai.com` |
+| Pagination | Supports paginated popular, latest, and search results |
 
 ## Repository layout
-| Path | What |
+
+| Path | Description |
 |---|---|
-| `extension/eahentai/` | Extension module (drop into `keiyoushi/extensions-source/src/en/`) |
-| `tools/build.sh` | Build a signed release APK + JAR |
-| `tools/make_store.py`, `tools/make_index.py` | Generate the store (`index.json`, `index.pb`, `index.html`) |
-| `tools/publish.sh` | Regenerate and push the store branch |
-| `tools/test/` | End-to-end test against a disposable Suwayomi |
-| branch `repo` | The published store |
+| `extension/eahentai/` | Extension module for `keiyoushi/extensions-source/src/en/` |
+| `tools/build.sh` | Builds signed release APK and JAR artifacts |
+| `tools/make_store.py` | Generates extension repository metadata |
+| `tools/make_index.py` | Generates repository index files |
+| `tools/publish.sh` | Regenerates and publishes the repository branch |
+| `tools/test/` | End-to-end tests using a disposable Suwayomi instance |
+| `repo` branch | Published extension repository and release artifacts |
 
-Building and updating: [BUILDING.md](BUILDING.md). Progress log: [PROGRESS.md](PROGRESS.md).
+Build and release instructions are available in [BUILDING.md](BUILDING.md). Development history is recorded in [PROGRESS.md](PROGRESS.md).
 
-Not affiliated with eahentai.com, Keiyoushi, Mihon or Suwayomi. License: Apache-2.0 (see NOTICE.md).
+## Disclaimer
+
+This project is not affiliated with eahentai.com, Keiyoushi, Mihon, or Suwayomi.
+
+Licensed under the Apache License 2.0. See [NOTICE.md](NOTICE.md) for attribution and additional notices.
